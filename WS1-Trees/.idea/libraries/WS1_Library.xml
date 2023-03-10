@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="WS1-Library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/WS1-Library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
