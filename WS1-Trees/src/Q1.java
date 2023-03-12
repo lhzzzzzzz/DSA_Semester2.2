@@ -11,41 +11,44 @@ public class Q1 {
 
 
         // num: 1
-        Character a = root_element(tree);
+        Character a = rootElement(tree);
         System.out.println(a);
 
         // num: 2
-        root_children(tree);
+        rootChildren(tree);
 
         // num: 3
-        int c = find_depth('L', tree);
+        int c = findDepth('L', tree);
         System.out.println(c);
 
         // num: 4 (not good method)
-        int d = find_tree_height(tree);
+        int d = findTreeHeight(tree);
         System.out.println(d);
 
         // num: 5
-        find_ancestors('G', tree);
+        findAncestors('G', tree);
 
         // num: 6
-        find_descendants('B', tree);
+        findDescendants('B', tree);
 
         // num: 7
-        find_leaf(tree);
+        findLeaf(tree);
 
         // num: 8
-
+        boolean h = isEdge('N', 'L', tree);
+        System.out.println(h);
         // num: 9
+        printList(elementBetween('D', 'N', tree));
 
         // num: 10
+        System.out.println(drawTree(tree));
 
 
     }
 
-    public static IPosition<Character> get_IPosition(ITree<Character> tree, Character c) {
-        IIterator<IPosition<Character>> iter = tree.positions();
-        IPosition<Character> element;
+    public static <T> IPosition<T> getIPosition(ITree<T> tree, T c) {
+        IIterator<IPosition<T>> iter = tree.positions();
+        IPosition<T> element;
         while (iter.hasNext()) {
             element = iter.next();
             if (element.element() == c) {
@@ -55,16 +58,21 @@ public class Q1 {
         return null;
     }
 
-    public static void print_list(ArrayList<Character> list) {
-
+    public static <T> void printList(ArrayList<T> list) {
+        int i = 0;
+        while (i < list.size()) {
+            System.out.print(list.get(i) + " ");
+            i += 1;
+        }
+        System.out.print("\n");
     }
 
-    public static Character root_element(ITree<Character> tree) {
+    public static <T> T rootElement(ITree<T> tree) {
         return tree.root().element();
     }
 
-    public static void root_children(ITree<Character> tree) {
-        IIterator<IPosition<Character>> b = tree.children(tree.root());
+    public static <T> void rootChildren(ITree<T> tree) {
+        IIterator<IPosition<T>> b = tree.children(tree.root());
         while (b.hasNext()) {
             System.out.print(b.next().element() + " ");
         }
@@ -73,8 +81,8 @@ public class Q1 {
 
 
 
-    public static int find_depth(Character e, ITree<Character> tree) {
-        IPosition<Character> element = get_IPosition(tree, e);
+    public static <T> int findDepth(T e, ITree<T> tree) {
+        IPosition<T> element = getIPosition(tree, e);
         int depth = 0;
         while (tree.parent(element) != null) {
             element = tree.parent(element);
@@ -83,15 +91,15 @@ public class Q1 {
         return depth;
     }
 
-    public static int find_tree_height(ITree<Character> tree) {
+    public static <T> int findTreeHeight(ITree<T> tree) {
         int height = 0;
         if (tree.isEmpty()) {
             return height;
         }
-        IIterator<IPosition<Character>> list = tree.positions();
+        IIterator<IPosition<T>> list = tree.positions();
         while (list.hasNext()) {
-            IPosition<Character> ele = list.next();
-            int h1 = find_depth(ele.element(), tree);
+            IPosition<T> ele = list.next();
+            int h1 = findDepth(ele.element(), tree);
             if (h1 > height) {
                 height = h1;
             }
@@ -99,9 +107,9 @@ public class Q1 {
         return height;
     }
 
-    public static void find_ancestors(Character e, ITree<Character> tree) {
-        IPosition<Character> ele = get_IPosition(tree, e);
-        IPosition<Character> parent = tree.parent(ele);
+    public static <T> void findAncestors(T e, ITree<T> tree) {
+        IPosition<T> ele = getIPosition(tree, e);
+        IPosition<T> parent = tree.parent(ele);
         while (parent != null) {
             System.out.print(parent.element() + " ");
             parent = tree.parent(parent);
@@ -109,40 +117,76 @@ public class Q1 {
         System.out.print("\n");
     }
 
-    public static void find_descendants(Character e, ITree<Character> tree) {
-        IPosition<Character> ele = get_IPosition(tree, e);
-        find_descendants(ele, tree);
+    public static <T> void findDescendants(T e, ITree<T> tree) {
+        IPosition<T> ele = getIPosition(tree, e);
+        findDescendants(ele, tree);
         System.out.print("\n");
     }
 
-    private static void find_descendants(IPosition<Character> c, ITree<Character> tree) {
-        IIterator<IPosition<Character>> iterator = tree.children(c);
+    private static <T>void findDescendants(IPosition<T> c, ITree<T> tree) {
+        IIterator<IPosition<T>> iterator = tree.children(c);
         while (iterator.hasNext()) {
-            IPosition<Character> i = iterator.next();
+            IPosition<T> i = iterator.next();
             System.out.print(i.element() + " ");
-            find_descendants(i, tree);
+            findDescendants(i, tree);
         }
     }
 
-    public static void find_leaf(ITree<Character> tree) {
-        find_leaf(tree.root(), tree);
+    public static <T> void findLeaf(ITree<T> tree) {
+        findLeaf(tree.root(), tree);
         System.out.print("\n");
     }
 
-    private static void find_leaf(IPosition<Character> c, ITree<Character> tree) {
-        IIterator<IPosition<Character>> iterator = tree.children(c);
+    private static <T> void findLeaf(IPosition<T> c, ITree<T> tree) {
+        IIterator<IPosition<T>> iterator = tree.children(c);
         if (iterator.hasNext() == false) {
             System.out.print(c.element() + " ");
             return;
         }
         while (iterator.hasNext()) {
             c = iterator.next();
-            find_leaf(c, tree);
+            findLeaf(c, tree);
         }
 
     }
 
-    public static void
+    public static <T> boolean isEdge(T parent, T children, ITree<T> tree) {
+        IPosition<T> Parent = getIPosition(tree, parent);
+        IPosition<T> Children = getIPosition(tree, children);
+        return (tree.parent(Children) == Parent);
+    }
+
+    public static <T> ArrayList<T> elementBetween(T a, T b, ITree<T> tree) {
+        ArrayList<T> arr = new ArrayList<>();
+        IPosition<T> B = getIPosition(tree, b);
+        while (tree.parent(B).element() != a) {
+            B = tree.parent(B);
+            arr.add(0, B.element());
+        }
+        return arr;
+    }
+
+
+    public static <T> String drawTree(ITree<T> tree) {
+        StringBuilder diagram = new StringBuilder();
+        buildTreeString(tree, tree.root(), "", "", diagram);
+        return diagram.toString();
+    }
+
+    public static <T> void buildTreeString(ITree<T> t, IPosition<T> p, String prefix, String childrenPrefix, StringBuilder diagram) {
+        diagram.append(prefix);
+        diagram.append(p.element());
+        diagram.append("\n");
+        IIterator<IPosition<T>> it = t.children(p);
+        while (it.hasNext()) {
+            IPosition<T> nextPos = it.next();
+            if (it.hasNext()) {
+                buildTreeString(t, nextPos, childrenPrefix + "├── ", childrenPrefix + "│   ", diagram);
+            } else {
+                buildTreeString(t, nextPos, childrenPrefix + "└── ", childrenPrefix + "    ", diagram);
+            }
+        }
+    }
 }
 
 
