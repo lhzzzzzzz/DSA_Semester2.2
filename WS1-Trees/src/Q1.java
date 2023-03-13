@@ -124,7 +124,7 @@ public class Q1 {
         System.out.print("\n");
     }
 
-    private static <T> void findDescendants(IPosition<T> c, ITree<T> tree) {
+    public static <T> void findDescendants(IPosition<T> c, ITree<T> tree) {
         IIterator<IPosition<T>> iterator = tree.children(c);
         while (iterator.hasNext()) {
             IPosition<T> i = iterator.next();
