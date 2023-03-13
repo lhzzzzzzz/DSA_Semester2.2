@@ -15,7 +15,7 @@ public class Q1 {
         System.out.println(a);
 
         // num: 2
-        rootChildren(tree);
+        elementChildren(a, tree);
 
         // num: 3
         int c = findDepth('L', tree);
@@ -71,8 +71,9 @@ public class Q1 {
         return tree.root().element();
     }
 
-    public static <T> void rootChildren(ITree<T> tree) {
-        IIterator<IPosition<T>> b = tree.children(tree.root());
+    public static <T> void elementChildren(T ele, ITree<T> tree) {
+        IPosition<T> e = getIPosition(tree, ele);
+        IIterator<IPosition<T>> b = tree.children(e);
         while (b.hasNext()) {
             System.out.print(b.next().element() + " ");
         }
@@ -123,7 +124,7 @@ public class Q1 {
         System.out.print("\n");
     }
 
-    private static <T>void findDescendants(IPosition<T> c, ITree<T> tree) {
+    private static <T> void findDescendants(IPosition<T> c, ITree<T> tree) {
         IIterator<IPosition<T>> iterator = tree.children(c);
         while (iterator.hasNext()) {
             IPosition<T> i = iterator.next();

@@ -6,5 +6,6 @@ public class Q3 {
       ITree<String> tree = Tree.createTreeC();
 
       // write your code to answer Question 3 here...
+      //Q1: Which is stored in the root position?
    }
 }
